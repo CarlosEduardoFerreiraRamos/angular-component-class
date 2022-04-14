@@ -1,4 +1,4 @@
-# Angular Component Class
+## Angular Component Class
 
 ### In this class you will learn:
 
@@ -51,3 +51,41 @@ return class CardComponent {}
 <!-- app.component.html -->
 <app-card></app-card>
 ```
+
+A text `component card works` should appear in hosted page.
+#
+### Style the component
+
+Our card component is created. But it doesn't look like a card at all. So let's add some styles like a border.
+
+First we have to talk about the types of css preprocessor that come with Angular out of the box. These preprocessors transform your written code in css files that can read by the browser. Withing the framework comes `sass`, `less`, and `scss`. In most projects that I worked on `scss` was used, and is what I would recomend.
+
+Like other MVC frameworks in Angular the component styles are separeted from the rest, being declered in the `<component-name>.component.scss`. This file is pointed in the components' metadata. The properties used are the `styleUrls`, that receives an array of string, each the url of a style file, and the `styles`, that receives an array of string, each a style declaration.
+
+```ts
+// card.component.ts
+@Component({
+  selector: 'app-card',
+  styleUrls: ['./card.component.scss'],
+  ...
+})
+return class CardComponent {}
+```
+
+or
+
+```ts
+// card.component.ts
+@Component({
+  selector: 'app-card',
+  styles: [`
+    .any-class {
+      display: block;
+    }
+  `],
+  ...
+})
+return class CardComponent {}
+```
+
+Now, knowing all that let's add a style to our card component.
