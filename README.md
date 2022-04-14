@@ -36,4 +36,18 @@ After the command is executed a folder called `card` with three files insed shou
 
 Also, the Component will be added at the app module in the declarions array.
 
-To finish this part, call the component on the app component `.html` file.
+To finish this part, call the component on the app component `.html` file, by writting the component selector. The selector you should use can be found in the component declaration file.
+
+```ts
+// card.component.ts
+@Component({
+  selector: 'app-card',
+  ...
+})
+return class CardComponent {}
+```
+
+```html
+<!-- app.component.html -->
+<app-card></app-card>
+```
