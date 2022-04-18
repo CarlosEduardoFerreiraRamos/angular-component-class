@@ -108,4 +108,35 @@ If you want add some more styles to our card.
 
 #
 
-### How to pass data into a component
+### Pass data into a component
+
+Whit our component all pritty and fancy we can now focus in its functionalities. Our component being a card we should allow to a value to be rendered in its body. To achieve this we will use the `Input` decorator to pass a string.
+
+In our component lets create a attribute called `text`, a `string`, that will have a special Angular decorator `@`, the `Input`. This will tell Angular that this component has a `prop` with the name `text`, and will allow us to call this attribute in the view.
+
+```ts
+// card.component.ts
+import { Input } from "@angular/core";
+
+return class CardComponent {
+  @Input() text: string;
+};
+```
+
+Now we will replace the original template `component card works` with the name of our attribute.
+
+```html
+<!-- card.component.html -->
+{{ text }}
+```
+
+And now we can pass any value to our component in the app component template.
+
+```html
+<!-- app.component.html -->
+<app-card text="Any value"></app-card>
+```
+
+#
+
+### Emit event from a component and listening to it
