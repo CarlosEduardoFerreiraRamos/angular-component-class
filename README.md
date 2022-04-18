@@ -108,7 +108,7 @@ If you want add some more styles to our card.
 
 #
 
-### Pass data into a component
+### Passing data into a component
 
 Whit our component all pritty and fancy we can now focus in its functionalities. Our component being a card we should allow to a value to be rendered in its body. To achieve this we will use the `Input` decorator to pass a string.
 
@@ -139,4 +139,50 @@ And now we can pass any value to our component in the app component template.
 
 #
 
-### Emit event from a component and listening to it
+### Emitting events from a component and listening to it
+
+Now with our component allowing more customization we may want listen to a specific inside the component. We can achieve this by creating another attribute, called `press`, that will have a special Angular decorator `@`, the `Output`. This will tell Angular that this component has a `event` with the name `press`, and will allow us to call this attribute in the view. Also this attribute must be initiated using the `EventEmitter` object. And for last let call the `press` attribut in a method, the `onPress`, emitting the event.
+
+```ts
+// card.component.ts
+import { Input, Output } from "@angular/core";
+
+return class CardComponent {
+  @Input() text: string;
+
+  @Output() press = new EventEmitter<string>();
+
+  public onPress(): void {
+    this.press.emit("From card with text: ", this.text);
+  }
+};
+```
+
+We also must call the new method in our card view.
+
+```html
+<!-- card.component.html -->
+<div (click)="onPress()">{{ text }}</div>
+```
+
+And now we can listen to this event in the app component. First lets create a function in the app component to be called in the app view.
+This function receives the `value` parameter, a `string`, and use to call an `alert`.
+
+```ts
+export class AppComponent {
+  public onPressCard(value: string): void {
+    alert(value);
+  }
+}
+```
+
+To listen our custom `press` event in the card component we can use the same syntax used in the card template. The only difference is the `$event` used to capture the value passed by the event.
+
+```html
+<!-- app.component.html -->
+<app-card text="Any value" (press)="onPressCard($event)"></app-card>
+```
+
+#
+
+### Content Projection
