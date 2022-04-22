@@ -257,3 +257,9 @@ This way, the elements selected will be projected in their especific `ng-content
 - The component must emit three diferente events, one for each of its values when these are clicked;
 - The component must render its child content in its view;
 - The component must render especific child contents in its header, body, and footer;
+
+### Special Chalenge: Content Overwrites Inputs Values
+
+- Create a logic that hides the values from the input when a content is projected.
+
+`This can be done using CSS selector or programaticlly`
