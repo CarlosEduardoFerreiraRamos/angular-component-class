@@ -186,3 +186,30 @@ To listen our custom `press` event in the card component we can use the same syn
 #
 
 ### Content Projection
+
+Content projection, or transclusion in Angular, is the feature that allows us to project a part of a view, in the content of a component, on a parent component view. It is a very powerfull tool, and a simple one to use.
+
+For exemple, in our `Card` component add a `ng-content` tag to its view.
+
+```html
+<!-- card.component.html -->
+<div (click)="onPress()">{{ text }}</div>
+
+<!-- child content will be projected here -->
+<ng-content></ng-content>
+```
+
+And in our app component write a text or any other element in the `card-component` content.
+
+```html
+<!-- app.component.html -->
+<app-card text="Any value" (press)="onPressCard($event)">
+  <div>Projected content</div>
+</app-card>
+```
+
+Written this way the projected content will appear bellow the text passed through the input. We can change the position of the `ng-content` and that will change the position of the projected content. Take note, that if the view contains multiple `ng-content` tags the content will not be projected multiple times. Insted the content will be projected in the position of the last `ng-content` tag.
+
+#
+
+### Selecting Content Projection
