@@ -208,8 +208,36 @@ And in our app component write a text or any other element in the `card-componen
 </app-card>
 ```
 
-Written this way the projected content will appear bellow the text passed through the input. We can change the position of the `ng-content` and that will change the position of the projected content. Take note, that if the view contains multiple `ng-content` tags the content will not be projected multiple times. Insted the content will be projected in the position of the last `ng-content` tag.
+Written this way the projected content will appear bellow the text passed through the input. We can change the position of the `ng-content` and that will change the position of the projected content. Take note, that if the view contains multiple `ng-content` tags the content will not be projected multiple times. Insted the content will be projected in the position of the last `ng-content` tag. The only case to use multiple `ng-content` tags would be when selecting especific content to be projected.
 
 #
 
 ### Selecting Content Projection
+
+The hability to select the content to be project is a powerfull one. The `ng-content` tag has the `select` property that uses the css selector pattern to target elements in the component content to be projected.
+
+For exemple, in our `Card` component add a `ng-content` tag before the `div` element with the text attribute. In it add a `select` property that target an element with the `card_header` property.
+
+```html
+<!-- card.component.html -->
+
+<!-- child content with the card_header prop will be projected here -->
+<ng-content select="card_header"></ng-content>
+
+<div (click)="onPress()">{{ text }}</div>
+
+<!-- child content will be projected here -->
+<ng-content></ng-content>
+```
+
+And in our app component write a text or any other element in the `card-component` content with the `card_header` property.
+
+```html
+<!-- app.component.html -->
+<app-card text="Any value" (press)="onPressCard($event)">
+  <strong card_header>Projected Header</strong>
+  <div>Projected content</div>
+</app-card>
+```
+
+This way, the elements selected will be projected in their especific `ng-content` tag, and all the others in the general one.
