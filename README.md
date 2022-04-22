@@ -241,3 +241,19 @@ And in our app component write a text or any other element in the `card-componen
 ```
 
 This way, the elements selected will be projected in their especific `ng-content` tag, and all the others in the general one.
+
+#
+
+## Chalenges
+
+#
+
+### Create a Card component
+
+- Create a card component using angular CLI;
+- The component must receive three values as inputs, a header, body, and footer;
+- The component must display the three previous values in its view;
+- The component must emit an event when one of its values is clicked;
+- The component must emit three diferente events, one for each of its values when these are clicked;
+- The component must render its child content in its view;
+- The component must render especific child contents in its header, body, and footer;
