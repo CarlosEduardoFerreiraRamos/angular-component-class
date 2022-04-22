@@ -27,13 +27,7 @@ First, let's build a card component so we can study the concepts of the class. O
 ng generate component <component-name>
 ```
 
-or
-
-```
-ng -g -c <component-name>
-```
-
-After the command is executed a folder called `card` with three files inside should be created in the `app` folder. Each file contains the instructions for part of the component. The `.hmlt` contains the view, the `.scss|.sass|.css` contains the component styles, and the `.ts` the component's class and metadata.
+After the command is executed a folder called `card` with three files inside should be created in the `app` folder. Each file contains the instructions for a part of the component. The `.hmlt` contains the view, the `.scss|.sass|.css` contains the component styles, and the `.ts` the component's class and metadata.
 
 Also, the Component will be added to the app module in the declarations array.
 
@@ -53,17 +47,17 @@ return class CardComponent {}
 <app-card></app-card>
 ```
 
-A text `component card works` should appear on the hosted page.
+A text `card works` should appear on the hosted page.
 
 #
 
 ### Style the component
 
-Our card component is created. But it doesn't look like a card at all. So let's add some styles like a border.
+Our card component is created. But it doesn't look like a card at all. So let's add some styles.
 
-First, we have to talk about the types of CSS preprocessors that come with Angular out of the box. These preprocessors transform your written code into CSS files that can be read by the browser. Within the framework comes `sass`, `less`, and `scss`. In most projects that I worked on `scss` was used, and this is what I would recommend.
+First, we have to talk about the types of CSS preprocessors that come with Angular out of the box. These preprocessors transform your written code into CSS files that can be read by the browser. Within the framework comes `sass`, `less`, and `scss`. We will use `scss`.
 
-Like other MVC frameworks in Angular, the component styles are separated from the rest, being declared in the `<component-name>.component.scss`. This file is pointed in the components' metadata. The properties used are the `styleUrls`, which receives an array of string, each the URL of a style file, and the `styles`, which receives an array of string, each a style declaration.
+The component styles are separated from the rest in the `<component-name>.component.scss`. This file is pointed in the components' metadata. The properties used are the `styleUrls`, which receives an array of string, each the URL of a style file, and the `styles`, which receives an array of string, each a style declaration.
 
 ```ts
 // card.component.ts
@@ -93,7 +87,7 @@ return class CardComponent {}
 
 Now, knowing all that let's add a style to our card component.
 
-First, let us give our component a more "Card" look by adding a border. To select the component itself use the `:host` selector.
+Let's give our component a more "Card" look by adding a border. To select the component itself use the `:host` selector.
 
 ```scss
 // card.component.scss
@@ -104,13 +98,13 @@ First, let us give our component a more "Card" look by adding a border. To selec
 }
 ```
 
-If you want to add some more styles to our card.
+If you want, add some more styles to our card component.
 
 #
 
 ### Passing data into a component
 
-In our component let's create an attribute called `text`, a `string`, that will have a special Angular decorator `@`, the `Input`. This will tell Angular that this component has a `prop` with the name `text`, and will allow us to call this attribute in the view.
+In our component let's create an attribute called `text`, a `string`, and will allow us to call this attribute in the view. Also, this attribute will have a special Angular decorator `@`, the `Input`. This will tell Angular that this component has a `prop` with the name `text`.
 
 ```ts
 // card.component.ts
@@ -121,7 +115,7 @@ return class CardComponent {
 };
 ```
 
-Now we will replace the original template `component card works` with the name of our attribute.
+Now we will replace the original template `card works` with the name of our attribute.
 
 ```html
 <!-- card.component.html -->
@@ -139,7 +133,7 @@ And now we can pass any value to our component in the app component template.
 
 ### Emitting events from a component and listening to it
 
-Now with our component allowing more customization, we may want to listen to a specific inside the component. We can achieve this by creating another attribute, called `press`, that will have a special Angular decorator `@`, the `Output`. This will tell Angular that this component has an `event` with the name `press`, and will allow us to call this attribute in the view. Also, this attribute must be initiated using the `EventEmitter` object. And for the last let's call the `press` attribute in a method, the `onPress`, emitting the event.
+In our component let's create another attribute, called `press`, that will have a special Angular decorator `@`, the `Output`. This will tell Angular that this component has an `event` with the name `press`, and will allow us to call this attribute in the view. Also, this attribute must be initiated using the `EventEmitter` object. And for the last let's call the `press` attribute in a method, the `onPress`, emitting the event.
 
 ```ts
 // card.component.ts
@@ -163,7 +157,7 @@ We also must call the new method in our card view.
 <div (click)="onPress()">{{ text }}</div>
 ```
 
-And now we can listen to this event in the app component. First, let us create a function in the app component to be called in the app view.
+Now we can listen to this event in the app component. First, let us create a function in the app component to be called in the app view.
 This function receives the `value` parameter, a `string`, and use to call an `alert`.
 
 ```ts
@@ -206,13 +200,13 @@ And in our app component write a text or any other element in the `card-componen
 </app-card>
 ```
 
-Written this way the projected content will appear below the text passed through the input. We can change the position of the `ng-content` and that will change the position of the projected content. Take note, that if the view contains multiple `ng-content` tags the content will not be projected multiple times. Instead, the content will be projected in the position of the last `ng-content` tag. The only case to use multiple `ng-content` tags would be when selecting specific content to be projected.
+With the `ng-content` tag written this way the projected content will appear below the text passed through the input. We can change the position of the `ng-content` and that will change the position of the projected content. Take note, that if the view contains multiple `ng-content` tags the content will not be projected multiple times. Instead, the content will be projected in the position of the last `ng-content` tag. The only case to use multiple `ng-content` tags would be when selecting specific content to be projected.
 
 #
 
 ### Selecting Content Projection
 
-The ability to select the content to be projected is a powerfull one. The `ng-content` tag has the `select` property that uses the CSS selector pattern to target elements in the component content to be projected.
+The ability to select the content to be projected is a powerfull one. The `ng-content` tag has the `select` property that uses an CSS selector pattern to target elements in the component content to be projected.
 
 For example, in our `Card` component add an `ng-content` tag before the `div` element with the text attribute. In it add a `select` property that target an element with the `card_header` property.
 
