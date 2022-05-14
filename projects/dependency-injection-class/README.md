@@ -25,4 +25,33 @@ First, let's build a user service so we can study the concepts of the class. On 
 ng generate service <service-name>
 ```
 
-After the command is executed a file called `user.service.ts` should be created in the `app` folder. The file contains instructions for a class that will be provided at some level of the injection tree.
+After the command is executed a file called `user.service.ts` should be created in the `app` folder. The file contains instructions for a class that will be provided at some level of the injection tree. Add a attribute call `serviceValue` to the service, and add the following value to it `from User service`.
+
+To finish this part, lets call the `UserService` in our `app.component.ts` , by calling it in the component constructor and overwriting the attribute `title` value with the service `serviceValue` attribute. The new value should appear on the view.
+
+```ts
+import { Injectable } from "@angular/core";
+
+@Injectable({
+  providedIn: "root",
+})
+export class UserService {
+  public serviceValue = "from User service";
+
+  constructor() {}
+}
+```
+
+```ts
+export class AppComponent {
+  title = "dependency-injection-class";
+
+  constructor(private _userService: UserService) {
+    this.title = this._userService.serviceValue;
+  }
+}
+```
+
+### Provide a Value
+
+This was kindof tuch in previus topic.
