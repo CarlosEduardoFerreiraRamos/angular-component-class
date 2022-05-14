@@ -54,4 +54,39 @@ export class AppComponent {
 
 ### Provide a Value
 
-This was kindof tuch in previus topic.
+This was kindof tuch in previus topic. Just by creating a service with the `providedIn` in the Injectable metadata set to `root` will provide the the `UserService`, in a single context, to the entire application.
+
+The `providedIn` property also accepts other values, such the declaration of a module, `any` that creates a context for every module, `platform` for every application. The advantage of using these values in the `providedIn` is that you are leaving to Angular to manage when the context is created and destroyed.
+
+Another way to provide a value is to provide in the `providers` metadata property. It accepts a arrays of Injectables, especific objects, and functions. It can be found in `@Module`, `@Directive`, and in `@Component` metadata.
+
+Let's change our `UserService` to be provided in the `AppModule`.
+
+First remove the metadata from our `UserService`. It should be like this.
+
+```ts
+@Injectable()
+export class UserService {
+  public serviceValue = "from User service";
+
+  constructor() {}
+}
+```
+
+If you try to execute the development server now it will throw an error, because Angular will try to find a Injectable with the `UserService` token.
+
+Now, at our `AppModule` add the `providers` property to the module metadata, the `NgModule`, providing the `UserService`.
+
+```ts
+@NgModule({
+  declarations: [AppComponent],
+  imports: [BrowserModule, AppRoutingModule],
+  providers: [UserService], // < - add here
+  bootstrap: [AppComponent],
+})
+export class AppModule {}
+```
+
+Ok, we just provide our service, an Injectable, using the `providers` property. But we can only provide Injectables in the `providers` property? The answare is no, we can provide EVERYTHING we want.
+
+To provide something we first need a Identification Token. In the case of our service the class declaration was used as an Identifier, the `UserService`. So classes, not interfaces, can be used as tokens. But Angular provide a way to create a token without a class, using the `InjectionToken`.
