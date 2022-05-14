@@ -1,8 +1,9 @@
 ## Angular Class
 
-### Existing classes
+### Classes
 
 - Angular Component Class;
+- Dependency Injection Class;
 
 ### Project creation
 
