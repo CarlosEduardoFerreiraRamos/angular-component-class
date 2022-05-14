@@ -90,3 +90,56 @@ export class AppModule {}
 Ok, we just provide our service, an Injectable, using the `providers` property. But we can only provide Injectables in the `providers` property? The answare is no, we can provide EVERYTHING we want.
 
 To provide something we first need a Identification Token. In the case of our service the class declaration was used as an Identifier, the `UserService`. So classes, not interfaces, can be used as tokens. But Angular provide a way to create a token without a class, using the `InjectionToken`.
+
+So now, lets provide our `UserService` class using a `InjectionToken`. Create a `InjectionToken`, that it is a class and the constructor receives a string used as an identifier, do it anywhere like this.
+
+```ts
+import { InjectionToken } from "@angular/core";
+
+export const APP_CONTEXT = new InjectionToken("app-context");
+```
+
+With our token created now we need to informe Angular that our `UserService` will be provided in the `APP_CONTEXT` token. To achieve this we have to pass a object in providers list. This object must have the `provide` property with the `APP_CONTEXT` as a value, and the `useClass` property with the `UserService` as a value.
+
+```ts
+@NgModule({
+  declarations: [AppComponent],
+  imports: [BrowserModule, AppRoutingModule],
+  providers: [{ provide: APP_CONTEXT, useClass: UserService }], // < - add here
+  bootstrap: [AppComponent],
+})
+export class AppModule {}
+```
+
+We also have to change how we access the injected value in our `AppComponent`, adding the `APP_CONTEXT` in front of the property being called in the component constructor using the `@Inject` decorator.
+
+```ts
+export class AppComponent {
+  title = "dependency-injection-class";
+
+  constructor(@Inject(APP_CONTEXT) private _userService: UserService) {
+    this.title = this._userService.serviceValue;
+  }
+}
+```
+
+By using the `APP_CONTEXT` token to provide the `UserService` class we don't need anymore the `Injectable` decorator on our service.
+
+But if we don't want ro provide a class, just a value? Well, insted of the property `useClass` we can use the `useValue`, and passa anything we want. In our case, lets pass an object simulating our `UserService`, an object with the `serviceValue` property.
+
+```ts
+@NgModule({
+  declarations: [AppComponent],
+  imports: [BrowserModule, AppRoutingModule],
+  providers: [
+    {
+      provide: APP_CONTEXT,
+      useValue: { serviceValue: "Provided by the APP_CONTEXT token" },
+    },
+  ], // < - add here
+  bootstrap: [AppComponent],
+})
+export class AppModule {}
+```
+
+Alright...
