@@ -5,9 +5,8 @@
 - How to use the command line to create a service;
 - How to provide a value;
 - How to access the provided value;
-- How to overwrite the provided value;
-- How to pass data to different scopes;
-- How to control the accessed value origin;
+- How to overwrite the provided value; (pending)
+- How to pass data to different scopes; (pending)
 
 ### Prerequisites:
 
@@ -143,3 +142,15 @@ export class AppModule {}
 ```
 
 Alright...
+[... function and mult]
+[... this.injector]
+
+### Access the Provided Value
+
+This was kindof also viewed in previus topic. So now we will see how to change the way injected value is accessed.
+
+Normally Angular follows a very simple order to access the value. First it asks the host it self, them the parents, and the parents of the parents, intil it reachs its module, and there for into the root of the application.
+
+To alterate the access Angular provides some decorator. They are `@Host`, `@Self`, `@SkipSelf`, and `@Optional`.
+
+`@Host`
