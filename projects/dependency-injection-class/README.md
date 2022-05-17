@@ -124,7 +124,7 @@ export class AppComponent {
 
 By using the `APP_CONTEXT` token to provide the `UserService` class we don't need anymore the `Injectable` decorator on our service.
 
-But if we don't want ro provide a class, just a value? Well, insted of the property `useClass` we can use the `useValue`, and passa anything we want. In our case, lets pass an object simulating our `UserService`, an object with the `serviceValue` property.
+But if we don't want to provid a class, just a value? Well, insted of the property `useClass` we can use the `useValue`, and passa anything we want. In our case, lets pass an object simulating our `UserService`, an object with the `serviceValue` property.
 
 ```ts
 @NgModule({
@@ -141,16 +141,49 @@ But if we don't want ro provide a class, just a value? Well, insted of the prope
 export class AppModule {}
 ```
 
-Alright...
-[... function and mult]
-[... this.injector]
+Extra method 1: Factory providers
+
+```ts
+provider: [{
+  provide: HeroService,
+  deps: [Logger, UserService],
+  useFactory: (logger: Logger, userService: UserService) => {
+    return new HeroService(logger, userService.user.isAuthorized);
+  }
+}]
+```
+
+Extra method 2: Injector Create
+
+```ts
+const Location = new InjectionToken('location');
+const Hash = new InjectionToken('hash');
+
+const injector = Injector.create({
+  providers: [
+    {provide: Location, useValue: 'https://angular.io/#someLocation'}, {
+      provide: Hash,
+      useFactory: (location: string) => location.split('#')[1],
+      deps: [Location]
+    }
+  ]
+});
+
+expect(injector.get(Hash)).toEqual('someLocation');
+```
 
 ### Access the Provided Value
 
-This was kindof also viewed in previus topic. So now we will see how to change the way injected value is accessed.
+This was kindof also viewed in previus topic. There is just one other way to access a provided vile by DI.
 
-Normally Angular follows a very simple order to access the value. First it asks the host it self, them the parents, and the parents of the parents, intil it reachs its module, and there for into the root of the application.
+We could use the `Injector` service to access a value provided in the DI.
+
+So now we will see how to change the way injected value is accessed.
+
+Normally Angular follows a very simple order to access the value. First it asks the host itself, them the parents, and the parents of the parents, intil it reachs its module, and there for into the root of the application.
 
 To alterate the access Angular provides some decorator. They are `@Host`, `@Self`, `@SkipSelf`, and `@Optional`.
 
 `@Host`
+
+[... this.injector]
