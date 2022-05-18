@@ -5,7 +5,7 @@
 - How to use the command line to create a service;
 - How to provide a value;
 - How to access the provided value;
-- How to overwrite the provided value; (pending)
+- How to overwrite the provided value;
 - How to pass data to different scopes; (pending)
 
 ### Prerequisites:
@@ -213,3 +213,5 @@ export class AppComponent {
   }
 }
 ```
+
+### Overwrite the Provided Value
