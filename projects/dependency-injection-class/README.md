@@ -178,12 +178,38 @@ This was kindof also viewed in previus topic. There is just one other way to acc
 
 We could use the `Injector` service to access a value provided in the DI.
 
+```ts
+export class AppComponent {
+  title = "dependency-injection-class";
+
+  constructor(private _injector: Injector) {
+    this.title = this._injector.get(UserService).serviceValue;
+  }
+}
+```
+
 So now we will see how to change the way injected value is accessed.
 
 Normally Angular follows a very simple order to access the value. First it asks the host itself, them the parents, and the parents of the parents, intil it reachs its module, and there for into the root of the application.
 
-To alterate the access Angular provides some decorator. They are `@Host`, `@Self`, `@SkipSelf`, and `@Optional`.
+To alterate the access Angular provides some decorators. They are `@Host`, `@Self`, `@SkipSelf`, and `@Optional`.
 
-`@Host`
+* `@Host` decorator says to Angular that access value can only fetch from the host element;
 
-[... this.injector]
+* `@Self` decorator says to Angular that access value can only fetch from itself;
+
+* `@SkipSelf` decorator says to Angular that will not search for the access value in itself;
+
+* `@Optional` decorator says to Angular teh value may not be present.
+
+The decorators can be used when calling the provided value in a class contructor. The operators also can be chained to create complex rules. 
+
+```ts
+export class AppComponent {
+  title = "dependency-injection-class";
+
+  constructor(@SkipSelf() @Optional() private _userService: UserService) {
+    this.title = this._userService.serviceValue;
+  }
+}
+```
