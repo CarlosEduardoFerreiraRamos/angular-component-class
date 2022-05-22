@@ -144,32 +144,35 @@ export class AppModule {}
 Extra method 1: Factory providers
 
 ```ts
-provider: [{
-  provide: HeroService,
-  deps: [Logger, UserService],
-  useFactory: (logger: Logger, userService: UserService) => {
-    return new HeroService(logger, userService.user.isAuthorized);
-  }
-}]
+provider: [
+  {
+    provide: HeroService,
+    deps: [Logger, UserService],
+    useFactory: (logger: Logger, userService: UserService) => {
+      return new HeroService(logger, userService.user.isAuthorized);
+    },
+  },
+];
 ```
 
 Extra method 2: Injector Create
 
 ```ts
-const Location = new InjectionToken('location');
-const Hash = new InjectionToken('hash');
+const Location = new InjectionToken("location");
+const Hash = new InjectionToken("hash");
 
 const injector = Injector.create({
   providers: [
-    {provide: Location, useValue: 'https://angular.io/#someLocation'}, {
+    { provide: Location, useValue: "https://angular.io/#someLocation" },
+    {
       provide: Hash,
-      useFactory: (location: string) => location.split('#')[1],
-      deps: [Location]
-    }
-  ]
+      useFactory: (location: string) => location.split("#")[1],
+      deps: [Location],
+    },
+  ],
 });
 
-expect(injector.get(Hash)).toEqual('someLocation');
+expect(injector.get(Hash)).toEqual("someLocation");
 ```
 
 ### Access the Provided Value
@@ -194,15 +197,15 @@ Normally Angular follows a very simple order to access the value. First it asks 
 
 To alterate the access Angular provides some decorators. They are `@Host`, `@Self`, `@SkipSelf`, and `@Optional`.
 
-* `@Host` decorator says to Angular that access value can only fetch from the host element;
+- `@Host` decorator says to Angular that access value can only fetch from the host element;
 
-* `@Self` decorator says to Angular that access value can only fetch from itself;
+- `@Self` decorator says to Angular that access value can only fetch from itself;
 
-* `@SkipSelf` decorator says to Angular that will not search for the access value in itself;
+- `@SkipSelf` decorator says to Angular that will not search for the access value in itself;
 
-* `@Optional` decorator says to Angular teh value may not be present.
+- `@Optional` decorator says to Angular the value may not be present.
 
-The decorators can be used when calling the provided value in a class contructor. The operators also can be chained to create complex rules. 
+The decorators can be used when calling the provided value in a class contructor. The operators also can be chained to create complex rules.
 
 ```ts
 export class AppComponent {
@@ -214,4 +217,38 @@ export class AppComponent {
 }
 ```
 
+We also can use view decorators to access this value. Decorators such `@ViewChild`, `@ViewChildren`, `@ContentChild`, or `@ContentChildren`.
+
+Lets say that we have a `Directive` that provide it self as a value to token called `APP_SELECTION_OPTION`, like this.
+
+```ts
+@Directive({
+  selector: "[appOption]",
+  providers: [
+    {
+      provide: APP_SELECTION_OPTION,
+      useExisting: OptionDirective,
+    },
+  ],
+})
+export class OptionDirective {
+  constructor() {}
+}
+```
+
 ### Overwrite the Provided Value
+
+Now that we gone deeper in how to access the provided value, we must tuch in how overwrite the provided value.
+
+To achieve this we will the same metadata property we use before, the `providers`.
+
+```ts
+  providers: [
+    {
+      provide: APP_CONTEXT,
+      useValue: { serviceValue: "APP_CONTEXT overwrited Value" },
+    },
+  ],
+```
+
+These can be used in `Components` and `Directives`. One of its most co
