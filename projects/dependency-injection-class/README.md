@@ -236,6 +236,27 @@ export class OptionDirective {
 }
 ```
 
+And we have a parent `Component` the looks for the previous `Directive`. It uses a view decorator to get the option `Directive` in its content. Just like the componet below.
+
+```ts
+@Component({
+  selector: "app-select",
+  templateUrl: "./select.component.html",
+  styleUrls: ["./select.component.scss"],
+})
+export class SelectComponent implements OnInit {
+  @ContentChild(OptionDirective) option: OptionDirective;
+}
+```
+
+If we put the option `Directive` inside our select `Component`, the `@ContentChild` will set out `Directive` as the value of the `option` attribute.
+
+```html
+<app-select>
+  <div appOption>A option</div>
+</app-select>
+```
+
 ### Overwrite the Provided Value
 
 Now that we gone deeper in how to access the provided value, we must tuch in how overwrite the provided value.
