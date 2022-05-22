@@ -272,4 +272,4 @@ To achieve this we will the same metadata property we use before, the `providers
   ],
 ```
 
-These can be used in `Components` and `Directives`. One of its most co
+These can be used in `Components` and `Directives`. One of its most co [ ...]
