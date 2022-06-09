@@ -219,17 +219,11 @@ export class AppComponent {
 
 We also can use view decorators to access this value. Decorators such `@ViewChild`, `@ViewChildren`, `@ContentChild`, or `@ContentChildren`.
 
-Lets say that we have a `Directive` that provide it self as a value to token called `APP_SELECTION_OPTION`, like this.
+Let's say that we have a `Directive` like this.
 
 ```ts
 @Directive({
-  selector: "[appOption]",
-  providers: [
-    {
-      provide: APP_SELECTION_OPTION,
-      useExisting: OptionDirective,
-    },
-  ],
+  selector: "[appOption]"
 })
 export class OptionDirective {
   constructor() {}
@@ -259,9 +253,9 @@ If we put the option `Directive` inside our select `Component`, the `@ContentChi
 
 ### Overwrite the Provided Value
 
-Now that we gone deeper in how to access the provided value, we must tuch in how overwrite the provided value.
+Now that we have a deeper knowloge of how to access the provided value, we must tuch in how overwrite the provided value. To achieve this we will the same metadata property we use before, the `providers`.
 
-To achieve this we will the same metadata property we use before, the `providers`.
+Let's suppose we have our `APP_CONTEXT` being provided at `AppModule`, receiving a value of an object literal with the `serviceValue` value set to the string `"APP_CONTEXT from AppModule"`.   
 
 ```ts
   providers: [
@@ -273,3 +267,5 @@ To achieve this we will the same metadata property we use before, the `providers
 ```
 
 These can be used in `Components` and `Directives`. One of its most co [ ...]
+
+### Pass data to different scopes
