@@ -257,7 +257,7 @@ In addition, we can also capture provided Tokens in the same way.
 First, create a token to be used instead of the directive class name.
 
 ```ts
-export const APP_SELECT_OPTION = new InjectionToken('app-select-opetion');
+export const APP_OPTION = new InjectionToken('app-option');
 ```
 
 In our `Directive` we will provide itself using the recently created token.
@@ -266,7 +266,7 @@ In our `Directive` we will provide itself using the recently created token.
 @Directive({
   selector: "[appOption]",
   providers: [
-    {provide: APP_SELECT_OPTION, useExisting: OptionDirective}
+    {provide: APP_OPTION, useExisting: OptionDirective}
   ]
 })
 export class OptionDirective {
@@ -281,27 +281,80 @@ Now, in our select component use the token to call the OptionDirective;
   ...
 })
 export class SelectComponent implements OnInit {
-  @ContentChild(APP_SELECT_OPTION) option;
+  @ContentChild(APP_OPTION) option;
 }
 ```
-
-
 
 ### Overwrite the Provided Value
 
 Now that we have a deeper knowloge of how to access the provided value, we must tuch in how overwrite the provided value. To achieve this we will the same metadata property we use before, the `providers`.
 
-Let's suppose we have our `APP_CONTEXT` being provided at `AppModule`, receiving a value of an object literal with the `serviceValue` value set to the string `"APP_CONTEXT from AppModule"`.   
+Let's take the same pass example with the select `component` and the option `directive`, and provide a configuration in the form of a literal object. We will use this object to change the behavior of the option `component`.
+
+First create a token called `APP_OPTION_CONFIG`
+
+```ts
+export const APP_OPTION_CONFIG = new InjectionToken('app-option-config');
+
+export interface OptionConfig {
+    toggle: boolean;
+}
+```
+
+
+In our AppModule provide `APP_OPTION_CONFIG` using a literal object as default value. In this object write a property called `toggle` that will be set to true.
 
 ```ts
   providers: [
     {
-      provide: APP_CONTEXT,
-      useValue: { serviceValue: "APP_CONTEXT overwrited Value" },
+      provide: APP_OPTION_CONFIG,
+      useValue: { toggle: true } as OptionConfig
     },
   ],
 ```
 
-These can be used in `Components` and `Directives`. One of its most co [ ...]
+Now lets call this dependency in our `directive`.
+
+
+```ts
+@Directive({selector: "[appOption]"})
+export class OptionDirective {
+
+  constructor(@Inject(APP_OPTION_CONFIG) private _config: OptionConfig) {}
+
+}
+```
+
+The next step would be to create the logic that controls the selection of a option.
+
+```ts
+@Directive({selector: "[appOption]"})
+export class OptionDirective {
+  @Output() selected = new EventEmitter<true>();
+
+  private isSelected = false;
+
+  @HostListener('click')
+  public onSelect() {
+    if (this._config.toggle) {
+      this.isSelected = !this.isSelected;
+    } else {
+      this.isSelected = true;
+    }
+    this.selected.emit(this.isSelected);
+  }
+
+  constructor(@Inject(APP_OPTION_CONFIG) private _config: OptionConfig) {}
+
+}
+```
+
+By the default value provided by the `APP_OPTION_CONFIG` the options will toggle the `isSelected` value.
+
+But we want that all options in the content of a select `component` behave different. So now in our select `component` [ ...]
+
+
+
 
 ### Pass data to different scopes
+
