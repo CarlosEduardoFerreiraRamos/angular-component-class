@@ -251,6 +251,42 @@ If we put the option `Directive` inside our select `Component`, the `@ContentChi
 </app-select>
 ```
 
+In addition, we can also capture provided Tokens in the same way.
+
+
+First, create a token to be used instead of the directive class name.
+
+```ts
+export const APP_SELECT_OPTION = new InjectionToken('app-select-opetion');
+```
+
+In our `Directive` we will provide itself using the recently created token.
+
+```ts
+@Directive({
+  selector: "[appOption]",
+  providers: [
+    {provide: APP_SELECT_OPTION, useExisting: OptionDirective}
+  ]
+})
+export class OptionDirective {
+  constructor() {}
+}
+```
+
+Now, in our select component use the token to call the OptionDirective;
+
+```ts
+@Component({
+  ...
+})
+export class SelectComponent implements OnInit {
+  @ContentChild(APP_SELECT_OPTION) option;
+}
+```
+
+
+
 ### Overwrite the Provided Value
 
 Now that we have a deeper knowloge of how to access the provided value, we must tuch in how overwrite the provided value. To achieve this we will the same metadata property we use before, the `providers`.
