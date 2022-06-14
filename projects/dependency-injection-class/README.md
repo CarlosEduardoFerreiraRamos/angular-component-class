@@ -289,6 +289,8 @@ export class SelectComponent implements OnInit {
 
 Now that we have a deeper knowloge of how to access the provided value, we must tuch in how overwrite the provided value. To achieve this we will the same metadata property we use before, the `providers`.
 
+The object here is to create a default behavior using a config object provided in the AppModule and to change this behavior using a wrap host. We are gonna simulate an `option` directive tha has as its default click behavior to toggle its `selected` value between true and false, but, when inside the content of our `select` component the `option` directive click behavior will change to only set to true, the `select` component will handle the unselect part of the logic. 
+
 Let's take the same pass example with the select `component` and the option `directive`, and provide a configuration in the form of a literal object. We will use this object to change the behavior of the option `component`.
 
 First create a token called `APP_OPTION_CONFIG`
@@ -325,33 +327,27 @@ export class OptionDirective {
 }
 ```
 
-The next step would be to create the logic that controls the selection of a option.
+By the default value provided by the `APP_OPTION_CONFIG` the options will toggle the `selected` value.
+
+But we want that all options in the content of a `select` component behave different. So now in our `select` component we must add a provider that overwrites the current `APP_OPTION_CONFIG` value with an object that sets the `toggle` property to false.
 
 ```ts
-@Directive({selector: "[appOption]"})
-export class OptionDirective {
-  @Output() selected = new EventEmitter<true>();
-
-  private isSelected = false;
-
-  @HostListener('click')
-  public onSelect() {
-    if (this._config.toggle) {
-      this.isSelected = !this.isSelected;
-    } else {
-      this.isSelected = true;
-    }
-    this.selected.emit(this.isSelected);
-  }
-
-  constructor(@Inject(APP_OPTION_CONFIG) private _config: OptionConfig) {}
-
+@Component({
+  providers: [
+    {
+      provide: APP_OPTION_CONFIG,
+      useValue: { toggle: false } as OptionConfig
+    },
+  ],
+})
+export class SelectComponent implements OnInit {
+  @ContentChild(APP_OPTION) option;
 }
 ```
 
-By the default value provided by the `APP_OPTION_CONFIG` the options will toggle the `isSelected` value.
+Now all `option` directives inisde the content of our `select` components will present a different behavior.
 
-But we want that all options in the content of a select `component` behave different. So now in our select `component` [ ...]
+[ ...]
 
 
 
