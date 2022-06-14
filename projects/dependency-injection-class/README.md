@@ -347,10 +347,9 @@ export class SelectComponent implements OnInit {
 
 Now all `option` directives inisde the content of our `select` components will present a different behavior.
 
-[ ...]
+Before we wrap all up. This last example may be seen convuluted for the sake of being convuluted, and anyone could say this necessite could be achieved by usin the `Input` anotation using a default value. This would not be simpler, but also more readble. The implementation on the example makes sense in an Architectural level, were the provided value could reduce boilerplate as a new value is provided application wide, such an external library que has a default value but your application should behave different. For example: 
 
-
-
+In the Angular ecosystem the Angular Material library has several configuration values provided at root level to dictate the behavior of its features. An example would be the materials' `Form Field`, a wrapper component that constrols visual feedbacks depending on the input state, which came with a default boxy style presenting an underline on the input field. We could change this behavior by passing a value to each `Form Fields` appearance property, passing a value like `outline` or `fill`. But this would be tedious if wee decided that all inputs in our application had to present a diffrent behavior. So intead of that we can change the behavior of all `Form Fields` by providing a value in a Module just as we deed in our previous example.
 
 ### Pass data to different scopes
 
