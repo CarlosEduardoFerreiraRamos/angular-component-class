@@ -140,39 +140,44 @@ But if we don't want to provid a class, just a value? Well, insted of the proper
 })
 export class AppModule {}
 ```
+The `useClass` we can use the `useValue` properties are not the only ones, how do we procided a value that it is only resolved at runtime?
 
-Extra method 1: Factory providers
+We possess two alternatives. The first, is using the `useFactory` property, which receives a function resolved at runtime, providing its return value. The second, would be using the `Injector` class, with this class we can create a new injetion object at runtime.
+
+Ex: using the `useFactory` property.
 
 ```ts
 provider: [
   {
-    provide: HeroService,
-    deps: [Logger, UserService],
-    useFactory: (logger: Logger, userService: UserService) => {
-      return new HeroService(logger, userService.user.isAuthorized);
+    provide: APP_CONTEXT,
+    useFactory: () => {
+      return { serviceValue: "Provided by the APP_CONTEXT token and resolved in useFactory function" };
     },
   },
 ];
 ```
 
-Extra method 2: Injector Create
+Ex: 2: Using the `Injector` class.
+
 
 ```ts
-const Location = new InjectionToken("location");
-const Hash = new InjectionToken("hash");
+export class AppComponent {
+  title = "dependency-injection-class";
 
-const injector = Injector.create({
-  providers: [
-    { provide: Location, useValue: "https://angular.io/#someLocation" },
-    {
-      provide: Hash,
-      useFactory: (location: string) => location.split("#")[1],
-      deps: [Location],
-    },
-  ],
-});
+  constructor() {
+    const injector = Injector.create({
+      providers: [
+        {
+          provide: APP_CONTEXT,
+          useValue: { serviceValue: "Provided at runtime by Injector class create" },
+        },
+      ],
+    });
 
-expect(injector.get(Hash)).toEqual("someLocation");
+    const userService: UserService = injector.get(APP_CONTEXT); 
+    this.title = userService.serviceValue;
+  }
+}
 ```
 
 ### Access the Provided Value
