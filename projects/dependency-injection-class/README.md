@@ -6,7 +6,7 @@
 - How to provide a value;
 - How to access the provided value;
 - How to overwrite the provided value;
-- How to pass data to different scopes; (pending)
+
 
 ### Prerequisites:
 
@@ -352,9 +352,26 @@ export class SelectComponent implements OnInit {
 
 Now all `option` directives inisde the content of our `select` components will present a different behavior.
 
-Before we wrap all up. This last example may be seen convuluted for the sake of being convuluted, and anyone could say this necessite could be achieved by usin the `Input` anotation using a default value. This would not be simpler, but also more readble. The implementation on the example makes sense in an Architectural level, were the provided value could reduce boilerplate as a new value is provided application wide, such an external library que has a default value but your application should behave different. For example: 
+Before we wrap all up. This last example may be seen convuluted for the sake of being convuluted, and anyone could say this necessite could be achieved by using the `Input` anotation with a default value. They could be correct, the input aproatch being simpler and readble. But The implementation on the example makes sense in an Architectural level, were the provided value could reduce the boilerplate as a new value is provided application wide, such an external library that has a default value but your application should behave different. For example: 
 
-In the Angular ecosystem the Angular Material library has several configuration values provided at root level to dictate the behavior of its features. An example would be the materials' `Form Field`, a wrapper component that constrols visual feedbacks depending on the input state, which came with a default boxy style presenting an underline on the input field. We could change this behavior by passing a value to each `Form Fields` appearance property, passing a value like `outline` or `fill`. But this would be tedious if wee decided that all inputs in our application had to present a diffrent behavior. So intead of that we can change the behavior of all `Form Fields` by providing a value in a Module just as we deed in our previous example.
+In the Angular ecosystem the Angular Material library has several configuration values provided at root level to dictate the behavior of its features. An example would be the materials' `Form Field`, a wrapper component that constrols visual feedbacks depending on the input state, which came with a default boxy style presenting an underline on the input field. We could change this behavior by passing a value to each `Form Fields` appearance property, a value like `outline` or `fill`. But this would be tedious if wee decided that all the inputs in our application had to present this different behavior. So instead of that we can change the behavior of all `Form Fields` by providing a value in a Module just as we deed in our previous example.
 
-### Pass data to different scopes
+#
+
+### Challenges
+
+#
+
+#
+
+### Create User Service
+
+- Create a service called `User Service`using angular CLI.
+- The service must be provided at root injector level;
+- The service must have an attibute called `userName`, a string with a default value of your choosing;
+- The service attibute called `userName` must be accessed in the app component;
+- Create an Injection Token called `APP_context`;
+- The Injection Token must be provided at `AppModule` injector level, providing any value as default;
+- The Injection Token value must be accessed in the app component;
+- The Injection Token value must be overwritten by another value;
 
