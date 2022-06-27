@@ -364,7 +364,7 @@ In the Angular ecosystem the Angular Material library has several configuration 
 
 #
 
-### Create User Service
+## Create User Service
 
 - Create a service called `User Service`using angular CLI.
 - The service must be provided at root injector level;
@@ -374,4 +374,29 @@ In the Angular ecosystem the Angular Material library has several configuration 
 - The Injection Token must be provided at `AppModule` injector level, providing any value as default;
 - The Injection Token value must be accessed in the app component;
 - The Injection Token value must be overwritten by another value;
+- Create a new Injection Token. This will be called `APP_USER`;
+- The Injection Token must be provided at `AppModule` injector level, providing the already existing `User Service`;
+- The Injection Token `APP_USER` and the `User Service` must persist the same data. If one of them is change both must be change.
+
+## Special Challenge: Overwrite Card Border Color
+
+- Create a card component that can project its content;
+- The card components' border color must be defined by a value provided at application root injector (choose any color you want);
+- Call the card component in the app component four times, puting the first two as parent and the rest as child of the first;
+```html
+  <!-- Example -->
+  <!-- first row -->
+  <app-card>
+    <app-card></app-card>
+  </app-card>
+
+  <!-- Second row -->
+  <app-card>
+    <app-card></app-card>
+  </app-card>
+```
+- In the first row, change the border color of the child using dependency injection, whitouth changing the color of the parent;
+- In the second row, only change the border color of parent and not the child.
+
+`This can be done using a component or directive as a provider.` 
 
